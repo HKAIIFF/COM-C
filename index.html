@@ -6,7 +6,7 @@
     <title>AIF-HKD - 香港AI國際電影節港幣穩定幣</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #3498db;
@@ -14,10 +14,11 @@
             --accent: #00ff9d;
             --warning: #f39c12;
             --danger: #e74c3c;
+            --gold: #FFD700;
         }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
             background-color: #0a0a0a;
             color: #ffffff;
             overflow-x: hidden;
@@ -342,48 +343,62 @@
             margin-bottom: 1rem;
         }
         
-        .step-number {
+        .ecosystem-card {
+            background: rgba(26, 32, 44, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .ecosystem-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 255, 157, 0.2);
+            border-color: rgba(0, 255, 157, 0.3);
+        }
+        
+        .ecosystem-icon {
             width: 60px;
             height: 60px;
-            border-radius: 50%;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
             font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+            color: white;
         }
         
-        .timeline-line {
-            position: relative;
+        .token-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
         }
         
-        .timeline-line:before {
-            content: '';
-            position: absolute;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: calc(100% - 80px);
-            background: linear-gradient(to bottom, var(--accent), var(--secondary));
-            opacity: 0.5;
-        }
-        
-        .price-card {
+        .compare-card {
             border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
+            background: rgba(26, 32, 44, 0.3);
         }
         
-        .price-card.featured {
+        .compare-card.featured {
             border-color: var(--accent);
-            transform: scale(1.05);
+            background: rgba(0, 255, 157, 0.05);
+            transform: scale(1.02);
         }
         
-        .price-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-10px);
+        .compare-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
         }
         
         .tab-nav {
@@ -392,17 +407,20 @@
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
         
         .tab-nav button {
             flex: 1;
-            padding: 12px 24px;
+            padding: 12px 16px;
             border: none;
             background: transparent;
             color: #9ca3af;
             border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 500;
+            min-width: 120px;
+            margin: 2px;
         }
         
         .tab-nav button.active {
@@ -423,9 +441,10 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 300px;
+            width: 100%;
+            max-width: 320px;
             height: 100vh;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(10, 10, 10, 0.98);
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 20px;
@@ -444,38 +463,96 @@
             font-size: 24px;
             cursor: pointer;
             color: var(--accent);
+            z-index: 1001;
         }
         
-        .reserve-breakdown {
-            background: rgba(26, 32, 44, 0.5);
+        .stablecoin-compare {
+            overflow-x: auto;
+        }
+        
+        .stablecoin-table {
+            min-width: 900px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .stablecoin-table th,
+        .stablecoin-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stablecoin-table th {
+            background: rgba(26, 32, 44, 0.7);
+            font-weight: 600;
+            color: var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .stablecoin-table tr:hover {
+            background: rgba(0, 255, 157, 0.05);
+        }
+        
+        .check-icon {
+            color: var(--accent);
+        }
+        
+        .cross-icon {
+            color: var(--danger);
+        }
+        
+        .warning-icon {
+            color: var(--warning);
+        }
+
+        /* Partners section */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .partner-card {
+            padding: 20px;
+            text-align: center;
             border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+            background: rgba(26, 32, 44, 0.5);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            transition: all 0.3s ease;
         }
         
-        .progress-segment {
-            height: 20px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            position: relative;
-            overflow: hidden;
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 157, 0.1);
+            border-color: var(--accent);
         }
         
-        .progress-segment-fill {
-            height: 100%;
-            border-radius: inherit;
-            transition: width 0.8s ease;
+        .partner-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            color: var(--accent);
         }
         
-        .progress-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        .partner-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .partner-item {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .partner-item:hover {
+            background: rgba(0, 255, 157, 0.1);
+            transform: scale(1.05);
         }
         
         /* Responsive adjustments */
@@ -491,11 +568,14 @@
             }
             
             .mobile-menu-btn {
-                display: block;
+                display: block !important;
+                cursor: pointer;
+                z-index: 999;
             }
             
             .logo-font {
                 font-size: 1.8rem;
+                letter-spacing: 2px;
             }
             
             .hero-bg {
@@ -504,7 +584,7 @@
             
             .hero {
                 min-height: 80vh;
-                padding-top: 70px;
+                padding-top: 100px;
             }
             
             .section-title:after {
@@ -512,43 +592,65 @@
                 bottom: -8px;
             }
             
-            .timeline-line:before {
-                display: none;
-            }
-            
             .hero-content .grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             .hero h1 {
                 font-size: 2.5rem;
+                line-height: 1.2;
             }
             
             .hero p {
                 font-size: 1rem;
+                line-height: 1.6;
             }
             
             .btn-primary, .btn-secondary {
-                padding: 10px 16px;
+                padding: 12px 20px;
                 font-size: 0.9rem;
+            }
+            
+            .tab-nav {
+                flex-direction: column;
+            }
+            
+            .tab-nav button {
+                flex: none;
+                margin: 2px 0;
+                text-align: center;
+            }
+            
+            .partners-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stablecoin-table {
+                font-size: 0.85rem;
+            }
+            
+            .stablecoin-table th,
+            .stablecoin-table td {
+                padding: 12px 8px;
             }
         }
         
         @media (max-width: 480px) {
             .hero {
                 min-height: 70vh;
+                padding-top: 80px;
             }
             
             .logo-font {
                 font-size: 1.5rem;
+                letter-spacing: 1px;
             }
             
             .logo-sub {
                 font-size: 0.6rem;
-            }
-            
-            .price-card.featured {
-                transform: none;
+                letter-spacing: 2px;
             }
             
             .hero h1 {
@@ -563,18 +665,44 @@
             .card {
                 padding: 1rem;
             }
+            
+            .ecosystem-card {
+                padding: 20px;
+            }
+            
+            .stats-card {
+                padding: 15px;
+            }
+            
+            .stats-card i {
+                font-size: 1.8rem;
+            }
+            
+            .stats-card .number {
+                font-size: 1.8rem;
+            }
+            
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
         }
         
         /* Mobile menu link style */
         .mobile-menu a {
             display: block;
-            padding: 12px 0;
+            padding: 15px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
         }
         
         .mobile-menu a:hover {
             color: var(--accent);
+            padding-left: 10px;
         }
         
         /* Mobile menu buttons */
@@ -582,7 +710,11 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 20px;
+            margin-top: 30px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
         }
     </style>
 </head>
@@ -617,16 +749,19 @@
             </a>
             <div class="hidden md:flex space-x-8 desktop-nav">
                 <a href="#about" class="hover:text-blue-400 transition">關於項目</a>
+                <a href="#ecosystem" class="hover:text-blue-400 transition">生態系統</a>
+                <a href="#core-features" class="hover:text-blue-400 transition">核心特色</a>
+                <a href="#use-cases" class="hover:text-blue-400 transition">應用場景</a>
                 <a href="#technology" class="hover:text-blue-400 transition">技術架構</a>
-                <a href="#ecosystem" class="hover:text-blue-400 transition">生態應用</a>
+                <a href="#comparison" class="hover:text-blue-400 transition">對比優勢</a>
                 <a href="#compliance" class="hover:text-blue-400 transition">合規框架</a>
-                <a href="#roadmap" class="hover:text-blue-400 transition">發展規劃</a>
+                <a href="#partners" class="hover:text-blue-400 transition">生態伙伴</a>
             </div>
             <div class="flex items-center space-x-4">
                 <a href="#whitepaper" class="btn-secondary px-6 py-2 rounded-full text-sm hidden sm:block">白皮書</a>
                 <a href="#launch" class="btn-primary px-6 py-2 rounded-full text-sm hidden sm:block">即將推出</a>
                 
-                <button class="md:hidden text-white mobile-menu-btn">
+                <button class="mobile-menu-btn text-white">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
@@ -639,14 +774,17 @@
             <i class="fas fa-times"></i>
         </div>
         
-        <div class="mt-12 flex flex-col space-y-4">
-            <a href="#about" class="text-xl">關於項目</a>
-            <a href="#technology" class="text-xl">技術架構</a>
-            <a href="#ecosystem" class="text-xl">生態應用</a>
-            <a href="#compliance" class="text-xl">合規框架</a>
-            <a href="#roadmap" class="text-xl">發展規劃</a>
+        <div class="mt-16 flex flex-col">
+            <a href="#about">關於項目</a>
+            <a href="#ecosystem">生態系統</a>
+            <a href="#core-features">核心特色</a>
+            <a href="#use-cases">應用場景</a>
+            <a href="#technology">技術架構</a>
+            <a href="#comparison">對比優勢</a>
+            <a href="#compliance">合規框架</a>
+            <a href="#partners">生態伙伴</a>
             
-            <div class="pt-6 border-t border-gray-700 mobile-menu-buttons">
+            <div class="mobile-menu-buttons">
                 <a href="#whitepaper" class="btn-secondary w-full py-3 rounded-lg font-medium text-center">
                     白皮書下載
                 </a>
@@ -665,13 +803,13 @@
                 <div class="animate-fade-in">
                     <div class="mb-6">
                         <span class="inline-block px-4 py-2 bg-blue-600 bg-opacity-20 text-blue-400 rounded-full text-sm font-medium border border-blue-500 border-opacity-30">
-                            香港金管局合規認證
+                            香港金管局合規認證 · AI電影產業專用
                         </span>
                     </div>
                     <h1 class="text-4xl md:text-6xl font-bold mb-6">
                         <span class="gradient-text">AIF-HKD</span><br>
-                        AI電影產業的<br>
-                        <span class="text-blue-400">港幣穩定幣</span>
+                        全球唯一<br>
+                        <span class="text-blue-400">AI電影產業穩定幣</span>
                     </h1>
                     <p class="text-xl text-gray-300 mb-8 leading-relaxed">
                         香港AI國際電影節(HKAIIFF)生態系統的法定貨幣錨定穩定幣，與港幣保持1:1錨定關係，為AI原生電影和媒體行業提供穩定、高效且合規的數字支付基礎設施。
@@ -705,28 +843,29 @@
                 <div class="animate-slide-right">
                     <div class="relative">
                         <div class="card p-6 cyber-border">
-                            <h3 class="text-2xl font-bold mb-4 text-center">AIF-HKD 實時狀態</h3>
+                            <h3 class="text-2xl font-bold mb-4 text-center">AIF-HKD Real-time Status</h3>
                             
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
-                                    <span class="text-gray-300">當前匯率</span>
-                                    <span class="text-green-400 font-bold">1 AIF-HKD = 1 HKD</span>
+                                    <span class="text-gray-300">Stable Trading Pairs</span>
+                                    <span class="text-green-400 font-bold">AIF/FilmToken/ACA</span>
                                 </div>
                                 
                                 <div class="flex justify-between items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
-                                    <span class="text-gray-300">儲備率</span>
-                                    <span class="text-blue-400 font-bold">103.5%</span>
+                                    <span class="text-gray-300">Fiat On/Off Ramp</span>
+                                    <span class="text-blue-400 font-bold">HKD ⇄ Web3</span>
                                 </div>
                                 
                                 <div class="flex justify-between items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
-                                    <span class="text-gray-300">監管狀態</span>
-                                    <span class="text-green-400 font-bold">✓ 已認證</span>
+                                    <span class="text-gray-300">Financial Services</span>
+                                    <span class="text-purple-400 font-bold">AIFCARD Base</span>
                                 </div>
-                                
-                                <div class="flex justify-between items-center p-3 bg-gray-800 bg-opacity-50 rounded-lg">
-                                    <span class="text-gray-300">審計頻率</span>
-                                    <span class="text-purple-400 font-bold">月度審計</span>
-                                </div>
+                            </div>
+                            
+                            <div class="mt-6 space-y-3 text-sm text-gray-400">
+                                <p><strong>穩定交易對：</strong>作為AIF、FilmToken和ACA在AIF交易所的主要交易對，提供穩定的流動性支持</p>
+                                <p><strong>法幣出入金通道：</strong>提供港幣與數字資產的無縫轉換，降低用戶進入Web3的門檻</p>
+                                <p><strong>金融服務基礎：</strong>為AIFCARD金融服務提供穩定基礎貨幣，支持借貸、信貸等金融業務</p>
                             </div>
                             
                             <div class="mt-6 text-center">
@@ -747,7 +886,7 @@
             <div class="text-center mb-16 animate-fade-in">
                 <h2 class="text-4xl font-bold mb-6 section-title center">什麼是 AIF-HKD</h2>
                 <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                    AIF-HKD是香港AI國際電影節(HKAIIFF)生態系統的基礎性法定貨幣掛鉤穩定幣，旨在成為AI原生電影產業的核心數字金融基礎設施，連接傳統電影產業與Web3數字創意經濟的穩定橋樑。
+                    AIF-HKD是全球首款專為AI電影產業設計的穩定幣，立足香港金管局《穩定幣條例》的合規框架，為HKAIIFF生態系統提供穩定的數字金融基礎設施。
                 </p>
             </div>
             
@@ -759,17 +898,7 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-4">穩定可信</h3>
                     <p class="text-gray-300 leading-relaxed">
-                        與港幣保持1:1的嚴格錨定，100%由高質量、流動性強的港幣計價資產提供支持，確保絕對的穩定性和可信度。
-                    </p>
-                </div>
-                
-                <div class="card p-8 animate-slide-up" style="animation-delay: 0.2s;">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">高效便捷</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        實現近乎即時、低成本的跨境交易，顯著降低傳統金融中介帶來的摩擦，提升全球AI電影項目的資金流轉效率。
+                        與港幣保持1:1的嚴格錨定，100%由高質量、流動性強的港幣計價資產提供支持，確保絕對的穩定性和可信度。月度獨立審計，儲備證明公開透明。
                     </p>
                 </div>
                 
@@ -779,7 +908,17 @@
                     </div>
                     <h3 class="text-2xl font-bold mb-4">合規透明</h3>
                     <p class="text-gray-300 leading-relaxed">
-                        嚴格遵守香港金管局《穩定幣條例》，定期進行獨立第三方審計，儲備證明公開可驗證，確保最高標準的合規性。
+                        嚴格遵守香港金管局《穩定幣條例》，全球監管框架先行者優勢，建立完善的AML/KYC體系，確保最高標準的合規性和透明度。
+                    </p>
+                </div>
+                
+                <div class="card p-8 animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">垂直專精</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        全球首款專為AI電影產業設計的穩定幣，深度整合HKAIIFF生態系統，提供項目融資、版權交易、跨境征片結算等專業金融服務。
                     </p>
                 </div>
             </div>
@@ -839,8 +978,599 @@
         </div>
     </section>
 
+    <!-- Ecosystem Section -->
+    <section class="py-20 bg-gray-900 bg-opacity-50" id="ecosystem">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 section-title center">香港AI國際電影節生態系統</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    AIF-HKD 作為"4+1+1"生態系統的核心支付基礎設施，連接各個平台和服務
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
+                <!-- 展映競賽單元 -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="token-badge">展映競賽</div>
+                    <h3 class="text-xl font-bold mb-4">國際展映競賽單元</h3>
+                    <p class="text-gray-300 mb-4">
+                        全球AI原生影視作品的權威展示平台，為優秀創作者提供國際舞台和豐厚獎金。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 獎金結算使用 AIF-HKD</li>
+                        <li>• 即時跨境支付</li>
+                        <li>• 透明獎勵機制</li>
+                    </ul>
+                </div>
+                
+                <!-- 香港AI電影學院 -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="token-badge">教育培訓</div>
+                    <h3 class="text-xl font-bold mb-4">香港AI電影學院</h3>
+                    <p class="text-gray-300 mb-4">
+                        全球首家專注AI電影教育的專業機構，培養AI+電影複合型人才。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 學費支付使用 AIF-HKD</li>
+                        <li>• 全球學員無縫繳費</li>
+                        <li>• 教師薪資穩定結算</li>
+                    </ul>
+                </div>
+                
+                <!-- AI電影市場 -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="token-badge">投融資</div>
+                    <h3 class="text-xl font-bold mb-4">香港AI電影市場</h3>
+                    <p class="text-gray-300 mb-4">
+                        融合Web3和AI技術的電影項目融資交易平台，實現投資民主化。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 項目融資穩定計價</li>
+                        <li>• 收益分配透明</li>
+                        <li>• 降低投資門檻</li>
+                    </ul>
+                </div>
+                
+                <!-- 征片中心 -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="token-badge">內容服務</div>
+                    <h3 class="text-xl font-bold mb-4">征片中心</h3>
+                    <p class="text-gray-300 mb-4">
+                        提供全鏈條AI原生影視內容服務，從創作到商業化的一站式解決方案。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 征片費用統一支付</li>
+                        <li>• 版權服務費結算</li>
+                        <li>• 全球發行收益分配</li>
+                    </ul>
+                </div>
+                
+                <!-- 404.world -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="token-badge">虛擬世界</div>
+                    <h3 class="text-xl font-bold mb-4">404.world</h3>
+                    <p class="text-gray-300 mb-4">
+                        AI驅動的互動內容平台，提供沉浸式數字體驗和個性化內容創作。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 訂閱服務支付</li>
+                        <li>• 虛擬資產交易</li>
+                        <li>• 創作者收益結算</li>
+                    </ul>
+                </div>
+                
+                <!-- AIF交易所 -->
+                <div class="ecosystem-card">
+                    <div class="ecosystem-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="token-badge">交易平台</div>
+                    <h3 class="text-xl font-bold mb-4">AIF交易所</h3>
+                    <p class="text-gray-300 mb-4">
+                        專業的數字資產交易平台，提供生態內各類代幣的流動性服務。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 穩定交易對基礎</li>
+                        <li>• 流動性提供</li>
+                        <li>• 價格發現機制</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features Section -->
+    <section class="py-20" id="core-features">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 section-title center">AIF-HKD 核心特色</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    為AI電影產業量身打造的穩定幣解決方案，具備多重技術和商業優勢
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16 animate-slide-up">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">1:1 港幣錨定機制</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-blue-400 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-2">法定貨幣抵押模式</h4>
+                                <p class="text-sm text-gray-400">採用100%港幣儲備支撐，確保每一枚AIF-HKD都有對應的港幣儲備</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-blue-400 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-2">透明審計機制</h4>
+                                <p class="text-sm text-gray-400">定期公佈儲備審計報告，確保資金安全和透明度</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-blue-400 mr-3 mt-1">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-2">即時兌換保證</h4>
+                                <p class="text-sm text-gray-400">用戶可隨時1:1兌換港幣，保證流動性和穩定性</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-8">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold gradient-text mb-4">1:1</div>
+                        <p class="text-xl font-semibold mb-4">AIF-HKD ⇄ HKD</p>
+                        <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm text-gray-400">當前兌換率</span>
+                                <span class="text-green-400 font-semibold">1.0000</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">24小時變動</span>
+                                <span class="text-gray-300">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500">穩定錨定，無波動風險</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16 animate-slide-up">
+                <div class="card p-8 order-2 md:order-1">
+                    <h4 class="text-lg font-bold mb-4">監管合規框架</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-university text-blue-400 mr-3"></i>
+                            <span class="text-sm">香港金融管理局 (HKMA) 監管</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt text-green-400 mr-3"></i>
+                            <span class="text-sm">穩定幣條例全面合規</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-file-contract text-purple-400 mr-3"></i>
+                            <span class="text-sm">反洗錢 (AML) 合規</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-user-check text-yellow-400 mr-3"></i>
+                            <span class="text-sm">了解客戶 (KYC) 驗證</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-globe text-cyan-400 mr-3"></i>
+                            <span class="text-sm">國際標準接軌</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <h3 class="text-2xl font-bold mb-6">全面監管合規</h3>
+                    <p class="text-gray-300 mb-6">
+                        嚴格遵循香港金融管理局的穩定幣監管要求，為用戶提供合法、安全、可靠的數字貨幣服務。我們的合規框架涵蓋資金管理、風險控制、客戶保護等各個層面。
+                    </p>
+                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-certificate text-white text-xl mr-3"></i>
+                            <div>
+                                <div class="font-semibold text-white">合規認證</div>
+                                <div class="text-sm text-blue-100">獲得香港監管機構正式許可</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="py-20 bg-gray-900 bg-opacity-50" id="use-cases">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 section-title center">應用場景</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    AIF-HKD 在AI電影生態系統中的多元化應用，覆蓋創作、投資、教育、交易等全產業鏈
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-slide-up">
+                <!-- 跨境電影融資 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">跨境電影融資</h3>
+                    <p class="text-gray-300 mb-4">
+                        為全球AI電影項目提供穩定的融資計價單位，消除匯率波動風險，簡化國際投資流程。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 項目代幣發行以AIF-HKD計價</li>
+                        <li>• 投資收益穩定分配</li>
+                        <li>• 降低國際投資門檻</li>
+                        <li>• 即時資金到賬</li>
+                    </ul>
+                </div>
+                
+                <!-- 數字資產交易 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">數字資產交易</h3>
+                    <p class="text-gray-300 mb-4">
+                        作為生態內各類代幣的穩定交易對，提供流動性支持和價格發現機制。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• AIF/AIF-HKD 交易對</li>
+                        <li>• FilmToken/AIF-HKD 交易對</li>
+                        <li>• ACA/AIF-HKD 交易對</li>
+                        <li>• 穩定的流動性提供</li>
+                    </ul>
+                </div>
+                
+                <!-- 創作者收益結算 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">創作者收益結算</h3>
+                    <p class="text-gray-300 mb-4">
+                        為AI電影創作者提供穩定的收益結算方式，支持版權分成、授權費等多種收入模式。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 版權收益即時結算</li>
+                        <li>• 授權費用透明分配</li>
+                        <li>• 創作激勵穩定發放</li>
+                        <li>• 全球創作者無縫收款</li>
+                    </ul>
+                </div>
+                
+                <!-- 教育培訓支付 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">教育培訓支付</h3>
+                    <p class="text-gray-300 mb-4">
+                        支持香港AI電影學院的學費支付、教師薪資、課程材料購買等教育相關支出。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 國際學員便捷繳費</li>
+                        <li>• 教師薪資穩定結算</li>
+                        <li>• 課程材料統一支付</li>
+                        <li>• 獎學金發放透明</li>
+                    </ul>
+                </div>
+                
+                <!-- 內容消費支付 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">內容消費支付</h3>
+                    <p class="text-gray-300 mb-4">
+                        在404.world等平台中，為用戶提供穩定的內容消費和虛擬資產購買支付方式。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 訂閱服務穩定支付</li>
+                        <li>• 虛擬道具購買</li>
+                        <li>• 個性化內容定制</li>
+                        <li>• 小額支付高效處理</li>
+                    </ul>
+                </div>
+                
+                <!-- 征片服務費用 -->
+                <div class="card p-6">
+                    <div class="ecosystem-icon mb-4">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">征片服務費用</h3>
+                    <p class="text-gray-300 mb-4">
+                        覆蓋征片中心的各類服務費用，包括征片費、本地化服務、版權代理等專業服務。
+                    </p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• 征片費統一收取</li>
+                        <li>• 本地化服務計費</li>
+                        <li>• 版權代理費結算</li>
+                        <li>• 發行服務費支付</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Stablecoin Comparison -->
+    <section class="py-20 bg-gray-900 bg-opacity-50" id="comparison">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-4xl font-bold mb-6 section-title center">全球穩定幣對比優勢</h2>
+                <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    AIF-HKD相較於主流穩定幣具有獨特的垂直領域優勢、監管先行地位和專業化金融服務能力。
+                </p>
+            </div>
+
+            <!-- Market Share Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <div class="card p-6 text-center animate-slide-up">
+                    <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-trophy text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">USDT (Tether)</h3>
+                    <div class="text-3xl font-bold text-orange-400 mb-2">66.5%</div>
+                    <p class="text-gray-400">市場份額 · 9000億美元市值</p>
+                </div>
+                
+                <div class="card p-6 text-center animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-medal text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">USDC (Circle)</h3>
+                    <div class="text-3xl font-bold text-blue-400 mb-2">28.3%</div>
+                    <p class="text-gray-400">市場份額 · 2400億美元市值</p>
+                </div>
+                
+                <div class="card p-6 text-center animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">新興穩定幣</h3>
+                    <div class="text-3xl font-bold text-purple-400 mb-2">5.2%</div>
+                    <p class="text-gray-400">包括PYUSD、HKDG等新興項目</p>
+                </div>
+            </div>
+
+            <!-- Detailed Comparison Table -->
+            <div class="stablecoin-compare animate-fade-in">
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold mb-6 text-center">穩定幣詳細對比分析</h3>
+                    <table class="stablecoin-table">
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>發行機構</th>
+                                <th>市值</th>
+                                <th>錨定貨幣</th>
+                                <th>儲備透明度</th>
+                                <th>監管狀態</th>
+                                <th>垂直應用</th>
+                                <th>收益分配</th>
+                                <th>生態整合</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="compare-card featured">
+                                <td class="font-bold text-accent">AIF-HKD</td>
+                                <td>HKAIIFF</td>
+                                <td class="text-purple-400">即將推出</td>
+                                <td>港幣 (HKD)</td>
+                                <td><i class="fas fa-check check-icon"></i> 月度審計</td>
+                                <td><i class="fas fa-check check-icon"></i> 香港金管局</td>
+                                <td><i class="fas fa-check check-icon"></i> AI電影產業</td>
+                                <td><i class="fas fa-check check-icon"></i> 智能合約</td>
+                                <td><i class="fas fa-check check-icon"></i> HKAIIFF生態</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">USDT</td>
+                                <td>Tether Ltd.</td>
+                                <td class="text-orange-400">$900B</td>
+                                <td>美元 (USD)</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 季度報告</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 部分監管</td>
+                                <td><i class="fas fa-times cross-icon"></i> 通用</td>
+                                <td><i class="fas fa-times cross-icon"></i> 無</td>
+                                <td><i class="fas fa-times cross-icon"></i> 基礎設施</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">USDC</td>
+                                <td>Circle</td>
+                                <td class="text-blue-400">$240B</td>
+                                <td>美元 (USD)</td>
+                                <td><i class="fas fa-check check-icon"></i> 月度審計</td>
+                                <td><i class="fas fa-check check-icon"></i> 美國合規</td>
+                                <td><i class="fas fa-times cross-icon"></i> 通用</td>
+                                <td><i class="fas fa-times cross-icon"></i> 無</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 基礎設施</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">PYUSD</td>
+                                <td>PayPal</td>
+                                <td class="text-green-400">$7.3B</td>
+                                <td>美元 (USD)</td>
+                                <td><i class="fas fa-check check-icon"></i> 定期審計</td>
+                                <td><i class="fas fa-check check-icon"></i> 美國合規</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 支付</td>
+                                <td><i class="fas fa-check check-icon"></i> 3.7%年化</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> PayPal生態</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">HKDG</td>
+                                <td>Hong Kong Dollar Global</td>
+                                <td class="text-gray-400">沙盒試點</td>
+                                <td>港幣 (HKD)</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 試點階段</td>
+                                <td><i class="fas fa-exclamation-triangle warning-icon"></i> 沙盒試點</td>
+                                <td><i class="fas fa-times cross-icon"></i> 通用</td>
+                                <td><i class="fas fa-times cross-icon"></i> 無</td>
+                                <td><i class="fas fa-times cross-icon"></i> 基礎設施</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AIF-HKD Unique Advantages -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
+                <div class="animate-slide-up">
+                    <h3 class="text-3xl font-bold mb-8">AIF-HKD 核心優勢</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="card p-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-film text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">100%超額抵押機制</h4>
+                                    <p class="text-gray-300">確保儲備資產始終超過流通中的AIF-HKD總量</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mt-4">
+                                <div class="text-blue-400 mr-4 mt-1 text-xl">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg mb-2">每日儲備資產監控</h5>
+                                    <p class="text-gray-400">實時監控儲備資產狀況，確保流動性充足</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mt-4">
+                                <div class="text-purple-400 mr-4 mt-1 text-xl">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg mb-2">月度獨立第三方審計</h5>
+                                    <p class="text-gray-400">定期由國際知名審計機構進行獨立審計</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mt-4">
+                                <div class="text-orange-400 mr-4 mt-1 text-xl">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-lg mb-2">儲備證明公開透明化</h5>
+                                    <p class="text-gray-400">儲備證明公開可驗證，確保最高透明度</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-certificate text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">監管先行優勢</h4>
+                                    <p class="text-gray-300">基於香港金管局《穩定幣條例》的明確監管框架，全球監管不確定性風險最低</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-3xl font-bold mb-8">技術與金融創新</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="card p-6">
+                            <h4 class="text-xl font-bold mb-4">智能合約自動化</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span>版權收益分配</span>
+                                    <span class="text-green-400 font-bold">100% 自動化</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>項目融資里程碑</span>
+                                    <span class="text-blue-400 font-bold">智能觸發</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>跨境征片結算</span>
+                                    <span class="text-purple-400 font-bold">即時執行</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <h4 class="text-xl font-bold mb-4">金融服務創新</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-3"></i>
+                                    <span>AI創作者信貸評級體系</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-3"></i>
+                                    <span>電影IP碎片化投資</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-3"></i>
+                                    <span>動態收益分配機制</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-star text-yellow-400 mr-3"></i>
+                                    <span>跨鏈資產互操作性</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <h4 class="text-xl font-bold mb-4">競爭壁壘</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-400">100+</div>
+                                    <div class="text-sm text-gray-400">AI電影項目</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-blue-400">50+</div>
+                                    <div class="text-sm text-gray-400">全球合作夥伴</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-purple-400">10+</div>
+                                    <div class="text-sm text-gray-400">監管許可</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-orange-400">1st</div>
+                                    <div class="text-sm text-gray-400">垂直領域先驅</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Technology Section -->
-    <section class="py-20 bg-gray-900 bg-opacity-50" id="technology">
+    <section class="py-20" id="technology">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 animate-fade-in">
                 <h2 class="text-4xl font-bold mb-6 section-title center">技術架構</h2>
@@ -969,47 +1699,43 @@
                         <h4 class="text-2xl font-bold mb-6">儲備資產組成</h4>
                         
                         <div class="space-y-4">
-                            <div class="reserve-breakdown">
+                            <div class="reserve-breakdown bg-gray-800 bg-opacity-50 rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="font-medium">現金和銀行存款</span>
                                     <span class="text-blue-400 font-bold">60-70%</span>
                                 </div>
-                                <div class="progress-segment bg-gray-700">
-                                    <div class="progress-segment-fill bg-blue-500" style="width: 65%;"></div>
-                                    <div class="progress-label">65%</div>
+                                <div class="w-full bg-gray-700 rounded-full h-4">
+                                    <div class="bg-blue-500 h-4 rounded-full" style="width: 65%"></div>
                                 </div>
                             </div>
                             
-                            <div class="reserve-breakdown">
+                            <div class="reserve-breakdown bg-gray-800 bg-opacity-50 rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="font-medium">短期港府債券（1年以下）</span>
                                     <span class="text-green-400 font-bold">20-30%</span>
                                 </div>
-                                <div class="progress-segment bg-gray-700">
-                                    <div class="progress-segment-fill bg-green-500" style="width: 25%;"></div>
-                                    <div class="progress-label">25%</div>
+                                <div class="w-full bg-gray-700 rounded-full h-4">
+                                    <div class="bg-green-500 h-4 rounded-full" style="width: 25%"></div>
                                 </div>
                             </div>
                             
-                            <div class="reserve-breakdown">
+                            <div class="reserve-breakdown bg-gray-800 bg-opacity-50 rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="font-medium">貨幣市場基金</span>
                                     <span class="text-purple-400 font-bold">5-10%</span>
                                 </div>
-                                <div class="progress-segment bg-gray-700">
-                                    <div class="progress-segment-fill bg-purple-500" style="width: 7%;"></div>
-                                    <div class="progress-label">7%</div>
+                                <div class="w-full bg-gray-700 rounded-full h-4">
+                                    <div class="bg-purple-500 h-4 rounded-full" style="width: 7%"></div>
                                 </div>
                             </div>
                             
-                            <div class="reserve-breakdown">
+                            <div class="reserve-breakdown bg-gray-800 bg-opacity-50 rounded-lg p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="font-medium">銀行定期存款</span>
                                     <span class="text-orange-400 font-bold">5-10%</span>
                                 </div>
-                                <div class="progress-segment bg-gray-700">
-                                    <div class="progress-segment-fill bg-orange-500" style="width: 3%;"></div>
-                                    <div class="progress-label">3%</div>
+                                <div class="w-full bg-gray-700 rounded-full h-4">
+                                    <div class="bg-orange-500 h-4 rounded-full" style="width: 3%"></div>
                                 </div>
                             </div>
                         </div>
@@ -1024,118 +1750,39 @@
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                                 <div>
-                                    <h5 class="font-bold text-lg mb-2">100%超額抵押機制</h5>
-                                    <p class="text-gray-400">確保儲備資產始終超過流通中的AIF-HKD總量</p>
+                                    <h5 class="font-bold text-lg mb-2">100%超額抵押</h5>
+                                    <p class="text-gray-400">儲備資產價值始終高於流通代幣總值</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
                                 <div class="text-blue-400 mr-4 mt-1 text-xl">
-                                    <i class="fas fa-chart-line"></i>
+                                    <i class="fas fa-exclamation-triangle"></i>
                                 </div>
                                 <div>
-                                    <h5 class="font-bold text-lg mb-2">每日儲備資產監控</h5>
-                                    <p class="text-gray-400">實時監控儲備資產狀況，確保流動性充足</p>
+                                    <h5 class="font-bold text-lg mb-2">流動性壓力測試</h5>
+                                    <p class="text-gray-400">每月進行極端市場情景下的流動性壓力測試</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
                                 <div class="text-purple-400 mr-4 mt-1 text-xl">
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-user-shield"></i>
                                 </div>
                                 <div>
-                                    <h5 class="font-bold text-lg mb-2">月度獨立第三方審計</h5>
-                                    <p class="text-gray-400">定期由國際知名審計機構進行獨立審計</p>
+                                    <h5 class="font-bold text-lg mb-2">多重簽名錢包</h5>
+                                    <p class="text-gray-400">儲備資產由7個獨立實體控制的多重簽名錢包管理</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
                                 <div class="text-orange-400 mr-4 mt-1 text-xl">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fas fa-lock"></i>
                                 </div>
                                 <div>
-                                    <h5 class="font-bold text-lg mb-2">儲備證明公開透明化</h5>
-                                    <p class="text-gray-400">儲備證明公開可驗證，確保最高透明度</p>
+                                    <h5 class="font-bold text-lg mb-2">智能合約安全審計</h5>
+                                    <p class="text-gray-400">每季度由頂級安全公司進行全面審計</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mint and Redeem Process -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
-                <div class="card p-8 animate-slide-up">
-                    <h4 class="text-2xl font-bold mb-6 text-center">發行流程</h4>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">1</div>
-                            <div>
-                                <h5 class="font-bold mb-2">用戶存入港幣</h5>
-                                <p class="text-gray-400">用戶向指定銀行賬戶存入港幣</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">2</div>
-                            <div>
-                                <h5 class="font-bold mb-2">銀行確認到賬</h5>
-                                <p class="text-gray-400">銀行確認到賬後通知智能合約</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">3</div>
-                            <div>
-                                <h5 class="font-bold mb-2">自動鑄造代幣</h5>
-                                <p class="text-gray-400">智能合約自動鑄造等量AIF-HKD</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">4</div>
-                            <div>
-                                <h5 class="font-bold mb-2">發送到錢包</h5>
-                                <p class="text-gray-400">AIF-HKD發送到用戶數字錢包</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card p-8 animate-slide-up" style="animation-delay: 0.2s;">
-                    <h4 class="text-2xl font-bold mb-6 text-center">贖回流程</h4>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">1</div>
-                            <div>
-                                <h5 class="font-bold mb-2">提交贖回申請</h5>
-                                <p class="text-gray-400">用戶提交贖回申請並銷毀AIF-HKD</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">2</div>
-                            <div>
-                                <h5 class="font-bold mb-2">智能合約驗證</h5>
-                                <p class="text-gray-400">智能合約驗證並處理贖回請求</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">3</div>
-                            <div>
-                                <h5 class="font-bold mb-2">釋放港幣</h5>
-                                <p class="text-gray-400">從儲備中釋放等量港幣</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="step-number mr-4">4</div>
-                            <div>
-                                <h5 class="font-bold mb-2">轉入銀行賬戶</h5>
-                                <p class="text-gray-400">港幣轉入用戶指定銀行賬戶</p>
                             </div>
                         </div>
                     </div>
@@ -1145,7 +1792,7 @@
     </section>
 
     <!-- Ecosystem Applications -->
-    <section class="py-20" id="ecosystem">
+    <section class="py-20 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 animate-fade-in">
                 <h2 class="text-4xl font-bold mb-6 section-title center">生態應用場景</h2>
@@ -1304,38 +1951,36 @@
                     <div class="animate-slide-right">
                         <div class="card p-6">
                             <h4 class="text-xl font-bold mb-4">融資流程</h4>
-                            <div class="timeline-line">
-                                <div class="space-y-8">
-                                    <div class="flex items-start">
-                                        <div class="step-number mr-4">1</div>
-                                        <div>
-                                            <h5 class="font-bold">項目提交</h5>
-                                            <p class="text-gray-400 text-sm">創作者提交AI電影項目計劃</p>
-                                        </div>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold">1</div>
+                                    <div>
+                                        <h5 class="font-bold">項目提交</h5>
+                                        <p class="text-gray-400 text-sm">創作者提交AI電影項目計劃</p>
                                     </div>
-                                    
-                                    <div class="flex items-start">
-                                        <div class="step-number mr-4">2</div>
-                                        <div>
-                                            <h5 class="font-bold">社區審核</h5>
-                                            <p class="text-gray-400 text-sm">社區投票決定項目可行性</p>
-                                        </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold">2</div>
+                                    <div>
+                                        <h5 class="font-bold">社區審核</h5>
+                                        <p class="text-gray-400 text-sm">社區投票決定項目可行性</p>
                                     </div>
-                                    
-                                    <div class="flex items-start">
-                                        <div class="step-number mr-4">3</div>
-                                        <div>
-                                            <h5 class="font-bold">資金募集</h5>
-                                            <p class="text-gray-400 text-sm">投資者使用AIF-HKD參與融資</p>
-                                        </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold">3</div>
+                                    <div>
+                                        <h5 class="font-bold">資金募集</h5>
+                                        <p class="text-gray-400 text-sm">投資者使用AIF-HKD參與融資</p>
                                     </div>
-                                    
-                                    <div class="flex items-start">
-                                        <div class="step-number mr-4">4</div>
-                                        <div>
-                                            <h5 class="font-bold">項目啟動</h5>
-                                            <p class="text-gray-400 text-sm">達到目標後自動釋放資金</p>
-                                        </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 text-white font-bold">4</div>
+                                    <div>
+                                        <h5 class="font-bold">項目啟動</h5>
+                                        <p class="text-gray-400 text-sm">達到目標後自動釋放資金</p>
                                     </div>
                                 </div>
                             </div>
@@ -1401,7 +2046,7 @@
     </section>
 
     <!-- Compliance Section -->
-    <section class="py-20 bg-gray-900 bg-opacity-50" id="compliance">
+    <section class="py-20" id="compliance">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16 animate-fade-in">
                 <h2 class="text-4xl font-bold mb-6 section-title center">合規框架</h2>
@@ -1437,127 +2082,8 @@
                 </div>
             </div>
 
-            <!-- Compliance Requirements -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="animate-fade-in">
-                    <h3 class="text-3xl font-bold mb-8">監管核心要求</h3>
-                    
-                    <div class="space-y-6">
-                        <div class="card p-6">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-id-card text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">發牌制度</h4>
-                                    <p class="text-gray-300">任何在香港發行法幣穩定幣或錨定港元的穩定幣必須申領牌照</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-piggy-bank text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">儲備管理</h4>
-                                    <p class="text-gray-300">需維持100%高流動性資產儲備（現金、短期國債等）</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-dollar-sign text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">資本要求</h4>
-                                    <p class="text-gray-300">最低實繳股本2500萬港元（銀行機構可豁免）</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-eye text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">透明度</h4>
-                                    <p class="text-gray-300">定期獨立第三方審計，儲備證明公開可驗證</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-undo text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">贖回保障</h4>
-                                    <p class="text-gray-300">須在合理條件下按面額處理穩定幣持有人的贖回要求</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="animate-slide-right">
-                    <h3 class="text-3xl font-bold mb-8">全球合規策略</h3>
-                    
-                    <div class="space-y-6">
-                        <div class="card p-6">
-                            <h4 class="text-xl font-bold mb-4">香港許可申請</h4>
-                            <p class="text-gray-300 mb-4">
-                                根據香港金管局於2025年8月1日生效的《穩定幣條例》申請穩定幣發行方許可，確保合法運營基礎。
-                            </p>
-                            <div class="flex items-center text-green-400">
-                                <i class="fas fa-check-circle mr-2"></i>
-                                <span>優先級：最高</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <h4 class="text-xl font-bold mb-4">AML/KYC 合規</h4>
-                            <p class="text-gray-300 mb-4">
-                                為所有AIF-HKD用戶和交易實施嚴格的反洗錢和了解你的客戶程序，與香港金管局和全球標準保持一致。
-                            </p>
-                            <div class="flex items-center text-blue-400">
-                                <i class="fas fa-shield-alt mr-2"></i>
-                                <span>標準：國際級</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <h4 class="text-xl font-bold mb-4">數據保護</h4>
-                            <p class="text-gray-300 mb-4">
-                                遵循類似GDPR的隱私原則，確保用戶數據的安全和隱私保護，建立完善的數據治理框架。
-                            </p>
-                            <div class="flex items-center text-purple-400">
-                                <i class="fas fa-lock mr-2"></i>
-                                <span>保護：最高級別</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card p-6">
-                            <h4 class="text-xl font-bold mb-4">持續合規監控</h4>
-                            <p class="text-gray-300 mb-4">
-                                設立專門的合規團隊，持續監控全球監管變化，並相應調整AIF-HKD的運營策略。
-                            </p>
-                            <div class="flex items-center text-orange-400">
-                                <i class="fas fa-chart-line mr-2"></i>
-                                <span>監控：實時更新</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Global Regulatory Landscape -->
-            <div class="mt-16">
+            <div>
                 <h3 class="text-3xl font-bold mb-8 text-center">全球監管格局</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1589,221 +2115,6 @@
         </div>
     </section>
 
-    <!-- Development Roadmap -->
-    <section class="py-20" id="roadmap">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16 animate-fade-in">
-                <h2 class="text-4xl font-bold mb-6 section-title center">發展規劃</h2>
-                <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-                    AIF-HKD將分階段推進全球擴張計劃，始終以合規為先，充分利用香港作為連接東西方文化的獨特橋樑地位。
-                </p>
-            </div>
-
-            <!-- Roadmap Timeline -->
-            <div class="relative">
-                <!-- Timeline Line -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500 hidden lg:block"></div>
-                
-                <div class="space-y-12 lg:space-y-24">
-                    <!-- Phase 1 -->
-                    <div class="flex flex-col lg:flex-row items-center">
-                        <div class="lg:w-1/2 lg:pr-12 animate-slide-up">
-                            <div class="card p-8">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
-                                        <span class="text-white font-bold">1</span>
-                                    </div>
-                                    <h3 class="text-2xl font-bold">第一階段：基礎建設</h3>
-                                </div>
-                                <div class="text-sm text-blue-400 mb-4">2025年Q3 - Q4</div>
-                                <ul class="space-y-2 text-gray-300">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        完成技術架構開發
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        申請香港金管局穩定幣許可
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        建立儲備資產管理體系
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        完成安全審計和合規認證
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
-                            <div class="relative">
-                                <div class="absolute inset-0 bg-blue-600 rounded-full opacity-20 animate-pulse"></div>
-                                <div class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto relative z-10">
-                                    <i class="fas fa-cog text-white text-2xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Phase 2 -->
-                    <div class="flex flex-col lg:flex-row-reverse items-center">
-                        <div class="lg:w-1/2 lg:pl-12 animate-slide-up">
-                            <div class="card p-8">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
-                                        <span class="text-white font-bold">2</span>
-                                    </div>
-                                    <h3 class="text-2xl font-bold">第二階段：生態整合</h3>
-                                </div>
-                                <div class="text-sm text-purple-400 mb-4">2026年Q1 - Q2</div>
-                                <ul class="space-y-2 text-gray-300">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        正式發行AIF-HKD穩定幣
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        整合HKAIIFF生態系統
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        啟動AIF交易所穩定交易對
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        推出AIFCARD金融服務
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/2 lg:pr-12 mt-8 lg:mt-0">
-                            <div class="relative">
-                                <div class="absolute inset-0 bg-purple-600 rounded-full opacity-20 animate-pulse" style="animation-delay: 0.5s;"></div>
-                                <div class="w-24 h-24 bg-purple-600 rounded-full flex items-center justify-center mx-auto relative z-10">
-                                    <i class="fas fa-link text-white text-2xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Phase 3 -->
-                    <div class="flex flex-col lg:flex-row items-center">
-                        <div class="lg:w-1/2 lg:pr-12 animate-slide-up">
-                            <div class="card p-8">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mr-4">
-                                        <span class="text-white font-bold">3</span>
-                                    </div>
-                                    <h3 class="text-2xl font-bold">第三階段：全球擴張</h3>
-                                </div>
-                                <div class="text-sm text-green-400 mb-4">2026年Q3 - 2027年</div>
-                                <ul class="space-y-2 text-gray-300">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        進入美國和歐盟市場
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        拓展新加坡和日本業務
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        探索多法幣掛鉤穩定幣
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        建立全球合作夥伴網絡
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
-                            <div class="relative">
-                                <div class="absolute inset-0 bg-green-600 rounded-full opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
-                                <div class="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto relative z-10">
-                                    <i class="fas fa-globe text-white text-2xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Phase 4 -->
-                    <div class="flex flex-col lg:flex-row-reverse items-center">
-                        <div class="lg:w-1/2 lg:pl-12 animate-slide-up">
-                            <div class="card p-8">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center mr-4">
-                                        <span class="text-white font-bold">4</span>
-                                    </div>
-                                    <h3 class="text-2xl font-bold">第四階段：創新發展</h3>
-                                </div>
-                                <div class="text-sm text-orange-400 mb-4">2027年+</div>
-                                <ul class="space-y-2 text-gray-300">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        央行數字貨幣（CBDC）整合
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        電影領域程序化金融
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        真實世界資產（RWA）代幣化
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-check text-green-400 mr-3"></i>
-                                        AI驅動的金融服務創新
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="lg:w-1/2 lg:pr-12 mt-8 lg:mt-0">
-                            <div class="relative">
-                                <div class="absolute inset-0 bg-orange-600 rounded-full opacity-20 animate-pulse" style="animation-delay: 1.5s;"></div>
-                                <div class="w-24 h-24 bg-orange-600 rounded-full flex items-center justify-center mx-auto relative z-10">
-                                    <i class="fas fa-rocket text-white text-2xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Key Milestones -->
-            <div class="mt-20">
-                <h3 class="text-3xl font-bold mb-8 text-center">關鍵里程碑</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="card p-6 text-center animate-slide-up">
-                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-certificate text-white text-xl"></i>
-                        </div>
-                        <h4 class="text-xl font-bold mb-2">監管許可</h4>
-                        <p class="text-gray-400">獲得香港金管局穩定幣發行許可</p>
-                    </div>
-                    
-                    <div class="card p-6 text-center animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-users text-white text-xl"></i>
-                        </div>
-                        <h4 class="text-xl font-bold mb-2">用戶突破</h4>
-                        <p class="text-gray-400">生態系統用戶達到100萬</p>
-                    </div>
-                    
-                    <div class="card p-6 text-center animate-slide-up" style="animation-delay: 0.4s;">
-                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-globe-americas text-white text-xl"></i>
-                        </div>
-                        <h4 class="text-xl font-bold mb-2">全球部署</h4>
-                        <p class="text-gray-400">在5大關鍵市場正式運營</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- FAQ Section -->
     <section class="py-20 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto px-4">
@@ -1825,7 +2136,7 @@
                                 </span>
                             </summary>
                             <div class="mt-4 text-gray-300 leading-relaxed">
-                                AIF-HKD是香港AI國際電影節(HKAIIFF)生態系統的法定貨幣錨定穩定幣，與港幣保持1:1的錨定關係。它旨在成為AI原生電影產業的核心數字金融基礎設施，為跨境交易、數字資產交易和透明結算提供穩定、高效且合規的解決方案。
+                                AIF-HKD是全球首款專為AI電影產業設計的港幣錨定穩定幣，與港幣保持1:1的錨定關係。它旨在成為AI原生電影產業的核心數字金融基礎設施，為跨境交易、數字資產交易和透明結算提供穩定、高效且合規的解決方案。
                             </div>
                         </details>
                     </div>
@@ -1833,13 +2144,13 @@
                     <div class="card p-6 animate-slide-up" style="animation-delay: 0.1s;">
                         <details class="group">
                             <summary class="flex justify-between items-center cursor-pointer list-none">
-                                <h3 class="text-xl font-bold">AIF-HKD如何確保穩定性？</h3>
+                                <h3 class="text-xl font-bold">AIF-HKD與其他穩定幣有什麼不同？</h3>
                                 <span class="transition group-open:rotate-180">
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </summary>
                             <div class="mt-4 text-gray-300 leading-relaxed">
-                                AIF-HKD採用法定貨幣抵押模式，100%由高質量、流動性強的港幣計價資產提供支持，包括現金、短期政府債券等。我們建立了超額抵押機制、每日儲備監控、月度獨立審計和公開透明的儲備證明系統，確保絕對的穩定性。
+                                AIF-HKD專為AI電影產業設計，深度整合HKAIIFF生態系統。與USDT、USDC等通用穩定幣不同，我們專注於垂直領域應用，提供特定的金融服務如項目融資、版權交易、跨境征片結算等。同時，我們擁有香港金管局的明確監管框架支持，具備先行者優勢。
                             </div>
                         </details>
                     </div>
@@ -1861,13 +2172,13 @@
                     <div class="card p-6 animate-slide-up" style="animation-delay: 0.3s;">
                         <details class="group">
                             <summary class="flex justify-between items-center cursor-pointer list-none">
-                                <h3 class="text-xl font-bold">如何發行和贖回AIF-HKD？</h3>
+                                <h3 class="text-xl font-bold">如何確保穩定性和安全性？</h3>
                                 <span class="transition group-open:rotate-180">
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </summary>
                             <div class="mt-4 text-gray-300 leading-relaxed">
-                                發行：用戶向指定銀行賬戶存入港幣，銀行確認後智能合約自動鑄造等量AIF-HKD並發送到用戶錢包。贖回：用戶提交贖回申請並銷毀AIF-HKD，智能合約驗證後從儲備中釋放等量港幣轉入用戶指定銀行賬戶。整個過程透明、自動化且高效。
+                                AIF-HKD採用法定貨幣抵押模式，100%由高質量、流動性強的港幣計價資產提供支持。我們建立了超額抵押機制、每日儲備監控、月度獨立審計和公開透明的儲備證明系統，確保絕對的穩定性和安全性。
                             </div>
                         </details>
                     </div>
@@ -1875,27 +2186,13 @@
                     <div class="card p-6 animate-slide-up" style="animation-delay: 0.4s;">
                         <details class="group">
                             <summary class="flex justify-between items-center cursor-pointer list-none">
-                                <h3 class="text-xl font-bold">AIF-HKD與其他穩定幣有什麼不同？</h3>
+                                <h3 class="text-xl font-bold">如何參與AIF-HKD生態系統？</h3>
                                 <span class="transition group-open:rotate-180">
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </summary>
                             <div class="mt-4 text-gray-300 leading-relaxed">
-                                AIF-HKD專為AI電影產業設計，深度整合HKAIIFF生態系統。與USDT、USDC等通用穩定幣不同，我們專注於垂直領域應用，提供特定的金融服務如項目融資、版權交易、跨境征片結算等。同時，我們擁有香港金管局的明確監管框架支持。
-                            </div>
-                        </details>
-                    </div>
-
-                    <div class="card p-6 animate-slide-up" style="animation-delay: 0.5s;">
-                        <details class="group">
-                            <summary class="flex justify-between items-center cursor-pointer list-none">
-                                <h3 class="text-xl font-bold">未來發展計劃是什麼？</h3>
-                                <span class="transition group-open:rotate-180">
-                                    <i class="fas fa-chevron-down"></i>
-                                </span>
-                            </summary>
-                            <div class="mt-4 text-gray-300 leading-relaxed">
-                                我們將分四個階段發展：基礎建設（2025年Q3-Q4）、生態整合（2026年Q1-Q2）、全球擴張（2026年Q3-2027年）和創新發展（2027年+）。計劃進入美國、歐盟、新加坡、日本等主要市場，並探索央行數字貨幣整合、程序化金融和真實世界資產代幣化等創新應用。
+                                您可以通過多種方式參與：作為AI電影創作者使用AIF-HKD進行項目融資，作為投資者參與電影項目投資，作為用戶在AIF.Market進行NFT交易，或者作為學員在HKAIFA支付課程費用。我們將提供完整的入門指南和技術支持。
                             </div>
                         </details>
                     </div>
@@ -1941,6 +2238,90 @@
         </div>
     </section>
 
+    <!-- Partners Section -->
+    <section class="py-20 bg-gray-900 bg-opacity-50" id="partners">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-4xl font-bold mb-6 section-title center">生態伙伴</h2>
+                <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    AIF-HKD與全球頂級區塊鏈平台、技術伙伴和行業機構建立戰略合作，共同推動AI電影產業的發展。
+                </p>
+            </div>
+
+            <div class="partners-grid">
+                <!-- Ecosystem Partners -->
+                <div class="partner-card animate-slide-up">
+                    <h3 class="text-xl font-bold mb-6">生態伙伴</h3>
+                    <div class="partner-list">
+                        <div class="partner-item">香港AI國際電影節協會</div>
+                        <div class="partner-item">香港AI國際電影節頒獎禮</div>
+                        <div class="partner-item">香港AI電影市場</div>
+                        <div class="partner-item">香港AI電影學院</div>
+                        <div class="partner-item">香港AI國際電影節徵片中心</div>
+                        <div class="partner-item">香港AI電影標準委員會</div>
+                        <div class="partner-item">香港AI電影基金會</div>
+                    </div>
+                </div>
+                
+                <!-- Blockchain Support -->
+                <div class="partner-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-xl font-bold mb-6">區塊鏈支持</h3>
+                    <div class="partner-list">
+                        <div class="partner-item">Ethereum</div>
+                        <div class="partner-item">Polygon</div>
+                        <div class="partner-item">Arbitrum</div>
+                        <div class="partner-item">Binance Smart Chain</div>
+                        <div class="partner-item">Avalanche</div>
+                        <div class="partner-item">Solana</div>
+                        <div class="partner-item">Optimism</div>
+                    </div>
+                </div>
+                
+                <!-- Mainstream Cryptocurrencies -->
+                <div class="partner-card animate-slide-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-xl font-bold mb-6">主流加密貨幣</h3>
+                    <div class="partner-list">
+                        <div class="partner-item">Bitcoin (BTC)</div>
+                        <div class="partner-item">Ethereum (ETH)</div>
+                        <div class="partner-item">USDT</div>
+                        <div class="partner-item">USDC</div>
+                        <div class="partner-item">Binance Coin (BNB)</div>
+                        <div class="partner-item">Cardano (ADA)</div>
+                        <div class="partner-item">Polygon (MATIC)</div>
+                    </div>
+                </div>
+                
+                <!-- Media Partners -->
+                <div class="partner-card animate-slide-up" style="animation-delay: 0.6s;">
+                    <h3 class="text-xl font-bold mb-6">影視媒體伙伴</h3>
+                    <div class="partner-list">
+                        <div class="partner-item">BBC Studios</div>
+                        <div class="partner-item">Warner Bros</div>
+                        <div class="partner-item">Disney Studios</div>
+                        <div class="partner-item">Universal Pictures</div>
+                        <div class="partner-item">Paramount Pictures</div>
+                        <div class="partner-item">Netflix Studios</div>
+                        <div class="partner-item">Apple Studios</div>
+                    </div>
+                </div>
+                
+                <!-- AI Technology Partners -->
+                <div class="partner-card animate-slide-up" style="animation-delay: 0.8s;">
+                    <h3 class="text-xl font-bold mb-6">AI技術伙伴</h3>
+                    <div class="partner-list">
+                        <div class="partner-item">OpenAI</div>
+                        <div class="partner-item">Anthropic</div>
+                        <div class="partner-item">Midjourney</div>
+                        <div class="partner-item">Stable Diffusion</div>
+                        <div class="partner-item">NVIDIA</div>
+                        <div class="partner-item">Google AI</div>
+                        <div class="partner-item">Microsoft AI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="py-12 bg-black bg-opacity-50">
         <div class="container mx-auto px-4">
@@ -1951,7 +2332,7 @@
                         <div class="logo-sub">HKAIIFF STABLECOIN</div>
                     </div>
                     <p class="text-gray-400 mb-4">
-                        為AI電影產業提供穩定、高效且合規的數字支付基礎設施。
+                        全球首款專為AI電影產業設計的港幣穩定幣，為創意經濟提供穩定、高效且合規的數字支付基礎設施。
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-blue-400"><i class="fab fa-twitter"></i></a>
@@ -1967,8 +2348,8 @@
                         <li><a href="#about" class="text-gray-400 hover:text-blue-400">關於AIF-HKD</a></li>
                         <li><a href="#technology" class="text-gray-400 hover:text-blue-400">技術架構</a></li>
                         <li><a href="#ecosystem" class="text-gray-400 hover:text-blue-400">生態應用</a></li>
+                        <li><a href="#comparison" class="text-gray-400 hover:text-blue-400">對比優勢</a></li>
                         <li><a href="#compliance" class="text-gray-400 hover:text-blue-400">合規框架</a></li>
-                        <li><a href="#roadmap" class="text-gray-400 hover:text-blue-400">發展規劃</a></li>
                     </ul>
                 </div>
                 <div>
@@ -2074,7 +2455,9 @@
             const mobileMenuClose = document.querySelector('.mobile-menu-close');
             
             if (mobileMenuBtn && mobileMenu && mobileMenuClose) {
-                mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     mobileMenu.classList.add('open');
                     document.body.style.overflow = 'hidden';
                 });
@@ -2082,6 +2465,14 @@
                 mobileMenuClose.addEventListener('click', () => {
                     mobileMenu.classList.remove('open');
                     document.body.style.overflow = 'auto';
+                });
+                
+                // Close mobile menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('open');
+                        document.body.style.overflow = 'auto';
+                    }
                 });
             }
             
@@ -2120,7 +2511,7 @@
                         });
                         
                         // Close mobile menu if open
-                        if (mobileMenu) {
+                        if (mobileMenu && mobileMenu.classList.contains('open')) {
                             mobileMenu.classList.remove('open');
                             document.body.style.overflow = 'auto';
                         }
@@ -2128,33 +2519,7 @@
                 });
             });
             
-            // Update reserve visualization with random fluctuations
-            function updateReserveData() {
-                const reserves = [
-                    { element: document.querySelectorAll('.progress-segment-fill')[0], baseWidth: 65, name: '現金和銀行存款' },
-                    { element: document.querySelectorAll('.progress-segment-fill')[1], baseWidth: 25, name: '短期港府債券' },
-                    { element: document.querySelectorAll('.progress-segment-fill')[2], baseWidth: 7, name: '貨幣市場基金' },
-                    { element: document.querySelectorAll('.progress-segment-fill')[3], baseWidth: 3, name: '銀行定期存款' }
-                ];
-                
-                reserves.forEach(reserve => {
-                    if (reserve.element) {
-                        const fluctuation = (Math.random() - 0.5) * 2; // ±1% fluctuation
-                        const newWidth = Math.max(0, Math.min(100, reserve.baseWidth + fluctuation));
-                        reserve.element.style.width = newWidth + '%';
-                        
-                        const label = reserve.element.nextElementSibling;
-                        if (label) {
-                            label.textContent = newWidth.toFixed(1) + '%';
-                        }
-                    }
-                });
-            }
-            
-            // Update reserve data every 30 seconds
-            setInterval(updateReserveData, 30000);
-            
-            // Real-time status updates
+            // Update real-time status
             function updateRealtimeStatus() {
                 const exchangeRate = document.querySelector('.text-green-400');
                 const reserveRate = document.querySelectorAll('.text-blue-400')[0];
@@ -2181,9 +2546,9 @@
             // Trading pairs simulation
             function updateTradingPairs() {
                 const tradingPairs = [
-                    { element: document.querySelector('.card p-4:nth-child(1) .text-green-400'), basePrice: 8.45, symbol: 'AIF-HKD' },
-                    { element: document.querySelector('.card p-4:nth-child(2) .text-green-400'), basePrice: 12.67, symbol: 'AIF-HKD' },
-                    { element: document.querySelector('.card p-4:nth-child(3) .text-green-400'), basePrice: 3.21, symbol: 'AIF-HKD' }
+                    { element: document.querySelector('#trading .card:nth-child(1) .text-green-400'), basePrice: 8.45, symbol: 'AIF-HKD' },
+                    { element: document.querySelector('#trading .card:nth-child(2) .text-green-400'), basePrice: 12.67, symbol: 'AIF-HKD' },
+                    { element: document.querySelector('#trading .card:nth-child(3) .text-green-400'), basePrice: 3.21, symbol: 'AIF-HKD' }
                 ];
                 
                 tradingPairs.forEach(pair => {
@@ -2209,8 +2574,8 @@
             setInterval(updateTradingPairs, 5000);
             
             // Newsletter subscription
-            const subscribeBtn = document.querySelector('button:contains("立即訂閱")');
-            if (subscribeBtn) {
+            const subscribeBtn = document.querySelector('.btn-primary');
+            if (subscribeBtn && subscribeBtn.textContent.includes('立即訂閱')) {
                 subscribeBtn.addEventListener('click', () => {
                     const emailInput = subscribeBtn.parentElement.querySelector('input[type="email"]');
                     if (emailInput && emailInput.value) {
@@ -2226,25 +2591,16 @@
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-5px)';
+                    if (!card.style.transform.includes('translateY')) {
+                        card.style.transform = 'translateY(-5px)';
+                    }
                 });
                 
                 card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0)';
+                    if (card.style.transform.includes('translateY(-5px)')) {
+                        card.style.transform = 'translateY(0)';
+                    }
                 });
-            });
-            
-            // Progress bar animations
-            const progressBars = document.querySelectorAll('.progress-segment-fill');
-            progressBars.forEach((bar, index) => {
-                setTimeout(() => {
-                    bar.style.transition = 'width 1.5s ease-in-out';
-                    const targetWidth = bar.style.width;
-                    bar.style.width = '0%';
-                    setTimeout(() => {
-                        bar.style.width = targetWidth;
-                    }, 100);
-                }, index * 200);
             });
         });
     </script>
